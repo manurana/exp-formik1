@@ -1,11 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Button } from "react-native";
 import { useFormikContext } from "formik";
 import FormTextInput from "./FormTextInput";
 import ArrayInput from "./ArrayInput";
 
 const BracketFormBody = () => {
-  const { submitForm, values } = useFormikContext();
+  const {
+    submitForm,
+    values,
+    isValid,
+    isSubmitting,
+    validateForm
+  } = useFormikContext();
+
+  // useEffect(() => {
+  //   validateForm();
+  // }, [validateForm]);
+
+  const submitDisabled = !isValid || isSubmitting;
 
   const addCompetitor = helpers => {
     helpers.push("");
@@ -29,7 +41,7 @@ const BracketFormBody = () => {
           removeItem={helpers => removeCompetitor(helpers)}
         />
       </View>
-      <Button onPress={submitForm} title="Submit" />
+      <Button onPress={submitForm} disabled={submitDisabled} title="Submit" />
     </View>
   );
 };
